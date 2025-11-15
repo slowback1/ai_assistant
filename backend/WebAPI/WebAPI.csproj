@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\AIChat\AIChat.csproj"/>
         <ProjectReference Include="..\Common\Common.csproj"/>
         <ProjectReference Include="..\FileData\FileData.csproj"/>
         <ProjectReference Include="..\InMemory\InMemory.csproj"/>

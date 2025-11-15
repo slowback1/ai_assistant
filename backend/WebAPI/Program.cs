@@ -1,5 +1,5 @@
+using Common.Models;
 using WebAPI.Configuration;
-using WebAPI.Config;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);

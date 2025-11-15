@@ -1,4 +1,4 @@
-namespace WebAPI.Config;
+namespace Common.Models;
 
 public class AIConfig
 {
