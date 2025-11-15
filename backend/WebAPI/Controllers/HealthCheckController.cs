@@ -1,5 +1,6 @@
 using Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Config;
 
 namespace WebAPI.Controllers;
 
@@ -10,13 +11,26 @@ public class HealthCheckResult
 }
 
 [Route("HealthCheck")]
-public class HealthCheckController(ICrudFactory factory) : ApplicationController(factory)
+public class HealthCheckController : ApplicationController
 {
+    private readonly AIConfig _aiConfig;
+
+    public HealthCheckController(ICrudFactory factory, AIConfig aiConfig) : base(factory)
+    {
+        _aiConfig = aiConfig;
+    }
 
     [HttpGet]
     [Route("")]
     public ActionResult HealthCheck()
     {
         return Ok(new HealthCheckResult { Status = "Healthy" });
+    }
+
+    [HttpGet]
+    [Route("AIConfig")]
+    public ActionResult GetAIConfig()
+    {
+        return Ok(_aiConfig);
     }
 }
