@@ -17,7 +17,7 @@ public class AIChatUseCase
 
 	public UseCaseResult<AISession> Execute(AIRequest request, IPersonality personality)
 	{
-		var message = PersonalityPromptBuilder.BuildPrompt(personality, request.Message);
+		var message = PersonalityPromptBuilder.BuildPrompt(personality, request.Message, request.Session);
 
 		var context = new AIContext
 		{
@@ -37,10 +37,21 @@ public class AIChatUseCase
 
 internal static class PersonalityPromptBuilder
 {
-	internal static string BuildPrompt(IPersonality personality, string userMessage)
+	internal static string BuildPrompt(IPersonality personality, string userMessage, AISession? session)
 	{
 		var stringBuilder = new StringBuilder();
 		stringBuilder.Append($"You are {personality.Name}, known as a {personality.Description}.\n");
+
+		if (session != null)
+		{
+			stringBuilder.Append("Previous conversation:\n");
+			foreach (var msg in session.Messages)
+			{
+				var role = msg.Role == "User" ? "User" : personality.Name;
+				stringBuilder.Append($"{role}: {msg.Message}\n");
+			}
+		}
+
 		stringBuilder.Append($"User prompt: {userMessage}");
 		stringBuilder.Append("Response: ");
 
