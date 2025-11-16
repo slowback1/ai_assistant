@@ -1,6 +1,7 @@
 using Common.Models;
-using WebAPI.Configuration;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
+using WebAPI.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(new CorsPolicy
+	{
+		Origins = { "*" },
+		Headers = { "*" },
+		Methods = { "*" }
+	});
+});
 CrudFactoryConfigurator.ConfigureCrudFactory(builder.Services, builder.Configuration);
 
 builder.Services.Configure<AIConfig>(builder.Configuration.GetSection("AI"));
@@ -18,10 +28,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.MapControllers();
 app.UseHttpsRedirection();
 
