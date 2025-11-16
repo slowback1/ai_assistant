@@ -1,6 +1,8 @@
 using AIChat;
+using CharacterPersonalities;
 using Common.Interfaces;
 using Common.Models;
+using Logic.AI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -31,5 +33,14 @@ public class AIController : ApplicationController
 		};
 		var response = requester.GetAIResponse(context);
 		return Ok(response);
+	}
+
+	[HttpPost("ChatWithDarthVader")]
+	public ActionResult ChatWithDarthVader([FromBody] AIRequest request)
+	{
+		var useCase = new AIChatUseCase(_aiConfig, new AIChatRequester());
+		var personality = new DarthVader();
+		var result = useCase.Execute(request, personality);
+		return ToActionResult(result);
 	}
 }

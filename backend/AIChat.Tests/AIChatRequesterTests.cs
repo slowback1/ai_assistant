@@ -21,7 +21,10 @@ public class AIChatRequesterTests
 		var requester = new AIChatRequester(client);
 
 		var ctx = new AIContext
-			{ Config = new AIConfig { Url = "https://test.local" }, Message = "hi", SessionId = "s1" };
+		{
+			Config = new AIConfig { Url = "https://test.local" }, Message = "hi",
+			Session = new AISession { SessionId = "s1" }
+		};
 		var result = requester.GetAIResponse(ctx);
 
 		Assert.That(result.Response, Is.EqualTo("hello world"));
@@ -44,7 +47,10 @@ public class AIChatRequesterTests
 		var requester = new AIChatRequester(client);
 
 		var ctx = new AIContext
-			{ Config = new AIConfig { Url = "https://test.local" }, Message = "hi", SessionId = "s2" };
+		{
+			Config = new AIConfig { Url = "https://test.local" }, Message = "hi",
+			Session = new AISession { SessionId = "s2" }
+		};
 		var result = requester.GetAIResponse(ctx);
 
 		Assert.That(result.Response, Is.EqualTo("from output"));
@@ -67,7 +73,10 @@ public class AIChatRequesterTests
 		var requester = new AIChatRequester(client);
 
 		var ctx = new AIContext
-			{ Config = new AIConfig { Url = "https://test.local" }, Message = "hi", SessionId = "s3" };
+		{
+			Config = new AIConfig { Url = "https://test.local" }, Message = "hi",
+			Session = new AISession { SessionId = "s3" }
+		};
 		var result = requester.GetAIResponse(ctx);
 
 		Assert.That(result.Response, Is.EqualTo("plain text result"));
@@ -92,7 +101,8 @@ public class AIChatRequesterTests
 
 		var ctx = new AIContext
 		{
-			Config = new AIConfig { Url = "https://test.local", ApiKey = "my-secret" }, Message = "hi", SessionId = "s4"
+			Config = new AIConfig { Url = "https://test.local", ApiKey = "my-secret" }, Message = "hi",
+			Session = new AISession { SessionId = "s5" }
 		};
 		var result = requester.GetAIResponse(ctx);
 
@@ -152,7 +162,10 @@ public class AIChatRequesterTests
 		var requester = new AIChatRequester(client);
 
 		var ctx = new AIContext
-			{ Config = new AIConfig { Url = "https://test.local", Model = null! }, Message = "hi", SessionId = "s5" };
+		{
+			Config = new AIConfig { Url = "https://test.local", Model = null! }, Message = "hi",
+			Session = new AISession { SessionId = "s5" }
+		};
 		var result = requester.GetAIResponse(ctx);
 
 		Assert.That(result.Response, Is.EqualTo("default model used"));
@@ -175,7 +188,7 @@ public class AIChatRequesterTests
 		var requester = new AIChatRequester(client);
 
 		var ctx = new AIContext
-			{ Config = new AIConfig { Url = "https://test.local" }, Message = "hi", SessionId = null! };
+			{ Config = new AIConfig { Url = "https://test.local" }, Message = "hi", Session = null! };
 		var result = requester.GetAIResponse(ctx);
 
 		Assert.That(result.Response, Is.EqualTo("no session id"));
