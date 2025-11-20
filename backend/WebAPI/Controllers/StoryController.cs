@@ -1,14 +1,20 @@
 using Common.Interfaces;
 using Common.Models;
 using Microsoft.AspNetCore.Mvc;
+using CharacterPersonalities;
+using Logic.AI;
+using AIChat;
 
 namespace WebAPI.Controllers;
 
-[Microsoft.AspNetCore.Components.Route("Story")]
+[Route("Story")]
 public class StoryController : ApplicationController
 {
-	public StoryController(ICrudFactory crudFactory) : base(crudFactory)
+	private readonly AIConfig _aiConfig;
+
+	public StoryController(ICrudFactory crudFactory, AIConfig aiConfig) : base(crudFactory)
 	{
+		_aiConfig = aiConfig;
 	}
 
 	[HttpGet("Latest")]
@@ -34,5 +40,34 @@ public class StoryController : ApplicationController
 		var orderedEvents = allEvents.OrderByDescending(e => e.CreatedAt).ToList();
 
 		return Ok(orderedEvents);
+	}
+
+	[HttpPost("Generate")]
+	public async Task<ActionResult> GenerateStory()
+	{
+		var storyCrud = Factory.GetCrud<StoryEvent>();
+		var previousEvents = await storyCrud.QueryAsync(_ => true);
+		var orderedEvents = previousEvents.OrderBy(e => e.CreatedAt).ToList();
+
+		var personality = new DarthVader();
+		var requester = new AIChatRequester();
+		var useCase = new StoryGenerationUseCase(_aiConfig, requester);
+
+		var result = useCase.Execute(personality, orderedEvents);
+
+		if (result.Status == UseCaseStatus.Success)
+		{
+			var storyEvent = new StoryEvent
+			{
+				Id = Guid.NewGuid().ToString(),
+				Story = result.Result!,
+				CreatedAt = DateTime.UtcNow
+			};
+
+			await storyCrud.CreateAsync(storyEvent);
+			return Ok(storyEvent);
+		}
+
+		return BadRequest(new { error = result.ErrorMessage });
 	}
 }
