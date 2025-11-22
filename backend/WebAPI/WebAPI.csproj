@@ -8,8 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14" />
+        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.13.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,12 +20,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AIChat\AIChat.csproj"/>
-        <ProjectReference Include="..\CharacterPersonalities\CharacterPersonalities.csproj"/>
-        <ProjectReference Include="..\Common\Common.csproj"/>
-        <ProjectReference Include="..\FileData\FileData.csproj"/>
-        <ProjectReference Include="..\InMemory\InMemory.csproj"/>
-        <ProjectReference Include="..\Logic\Logic.csproj"/>
+        <ProjectReference Include="..\AIChat\AIChat.csproj" />
+        <ProjectReference Include="..\CharacterPersonalities\CharacterPersonalities.csproj" />
+        <ProjectReference Include="..\Common\Common.csproj" />
+        <ProjectReference Include="..\FileData\FileData.csproj" />
+        <ProjectReference Include="..\InMemory\InMemory.csproj" />
+        <ProjectReference Include="..\Logic\Logic.csproj" />
     </ItemGroup>
 
 </Project>
