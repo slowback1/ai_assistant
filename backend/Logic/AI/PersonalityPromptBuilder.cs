@@ -11,6 +11,20 @@ public static class PersonalityPromptBuilder
 		var stringBuilder = new StringBuilder();
 		stringBuilder.Append($"You are {personality.Name}, known as a {personality.Description}.\n");
 
+		AppendIfNotEmpty(stringBuilder, "Age", personality.Age);
+		AppendIfNotEmpty(stringBuilder, "Physical features", personality.PhysicalFeatures);
+		AppendListIfNotEmpty(stringBuilder, "Loves", personality.Loves);
+		AppendListIfNotEmpty(stringBuilder, "Likes", personality.Likes);
+		AppendListIfNotEmpty(stringBuilder, "Dislikes", personality.Dislikes);
+		AppendListIfNotEmpty(stringBuilder, "Hates", personality.Hates);
+		AppendListIfNotEmpty(stringBuilder, "Relationships", personality.Relationships);
+		AppendIfNotEmpty(stringBuilder, "Typical clothing", personality.TypicalClothing);
+		AppendIfNotEmpty(stringBuilder, "Dreams for the future", personality.DreamsForFuture);
+		AppendIfNotEmpty(stringBuilder, "What they will talk about", personality.WhatTheyWillTalkAbout);
+		AppendIfNotEmpty(stringBuilder, "Occupation", personality.Occupation);
+		AppendIfNotEmpty(stringBuilder, "Background", personality.Background);
+		AppendIfNotEmpty(stringBuilder, "Motivations", personality.Motivations);
+
 		if (session != null)
 		{
 			stringBuilder.Append("Previous conversation:\n");
@@ -25,5 +39,21 @@ public static class PersonalityPromptBuilder
 		stringBuilder.Append("Response: ");
 
 		return stringBuilder.ToString();
+	}
+
+	private static void AppendIfNotEmpty(StringBuilder sb, string label, string? value)
+	{
+		if (!string.IsNullOrWhiteSpace(value))
+		{
+			sb.Append($"{label}: {value}\n");
+		}
+	}
+
+	private static void AppendListIfNotEmpty(StringBuilder sb, string label, System.Collections.Generic.IReadOnlyList<string>? values)
+	{
+		if (values != null && values.Count > 0)
+		{
+			sb.Append($"{label}: {string.Join(", ", values)}\n");
+		}
 	}
 }
