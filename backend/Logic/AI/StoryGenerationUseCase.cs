@@ -40,8 +40,7 @@ public class StoryGenerationUseCase
 
 	private static string BuildStoryPrompt(IPersonality personality, IEnumerable<StoryEvent> previousEvents)
 	{
-		var stringBuilder = new StringBuilder();
-		stringBuilder.Append($"You are {personality.Name}, known as a {personality.Description}.\n\n");
+		var stringBuilder = PersonalityPromptBuilder.BuildPersonalityPrompt(personality); 
 
 		var eventsList = previousEvents.ToList();
 		

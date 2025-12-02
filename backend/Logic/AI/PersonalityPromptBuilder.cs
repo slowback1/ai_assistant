@@ -8,6 +8,26 @@ public static class PersonalityPromptBuilder
 {
 	public static string BuildPrompt(IPersonality personality, string userMessage, AISession? session)
 	{
+		var stringBuilder = BuildPersonalityPrompt(personality);
+
+		if (session != null)
+		{
+			stringBuilder.Append("Previous conversation:\n");
+			foreach (var msg in session.Messages)
+			{
+				var role = msg.Role == "User" ? "User" : personality.Name;
+				stringBuilder.Append($"{role}: {msg.Message}\n");
+			}
+		}
+
+		stringBuilder.Append($"User prompt: {userMessage}");
+		stringBuilder.Append("Response: ");
+
+		return stringBuilder.ToString();
+	}
+
+	public static StringBuilder BuildPersonalityPrompt(IPersonality personality)
+	{
 		var stringBuilder = new StringBuilder();
 		stringBuilder.Append($"You are {personality.Name}, known as a {personality.Description}.\n");
 
@@ -24,21 +44,7 @@ public static class PersonalityPromptBuilder
 		AppendIfNotEmpty(stringBuilder, "Occupation", personality.Occupation);
 		AppendIfNotEmpty(stringBuilder, "Background", personality.Background);
 		AppendIfNotEmpty(stringBuilder, "Motivations", personality.Motivations);
-
-		if (session != null)
-		{
-			stringBuilder.Append("Previous conversation:\n");
-			foreach (var msg in session.Messages)
-			{
-				var role = msg.Role == "User" ? "User" : personality.Name;
-				stringBuilder.Append($"{role}: {msg.Message}\n");
-			}
-		}
-
-		stringBuilder.Append($"User prompt: {userMessage}");
-		stringBuilder.Append("Response: ");
-
-		return stringBuilder.ToString();
+		return stringBuilder;
 	}
 
 	private static void AppendIfNotEmpty(StringBuilder sb, string label, string? value)
