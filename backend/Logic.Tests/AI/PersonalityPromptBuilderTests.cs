@@ -1,3 +1,4 @@
+using System;
 using Common.Models;
 using Logic.AI;
 using TestUtilities.TestData;
@@ -271,8 +272,8 @@ public class PersonalityPromptBuilderTests
 	{
 		var personality = new TestPersonality("Test", "test description")
 		{
-			Loves = new string[] { },
-			Likes = new string[] { }
+			Loves = Array.Empty<string>(),
+			Likes = Array.Empty<string>()
 		};
 
 		var prompt = PersonalityPromptBuilder.BuildPrompt(personality, "Hello", null);
