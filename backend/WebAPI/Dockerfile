@@ -8,6 +8,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["WebAPI/WebAPI.csproj", "WebAPI/"]
+COPY ["AIChat/AIChat.csproj", "AIChat/"]
+COPY ["CharacterPersonalities/CharacterPersonalities.csproj", "CharacterPersonalities/"]
+COPY ["Common/Common.csproj", "Common/"]
+COPY ["FileData/FileData.csproj", "FileData/"]
+COPY ["InMemory/InMemory.csproj", "InMemory/"]
+COPY ["Logic/Logic.csproj", "Logic/"]
 RUN dotnet restore "WebAPI/WebAPI.csproj"
 COPY . .
 WORKDIR "/src/WebAPI"
