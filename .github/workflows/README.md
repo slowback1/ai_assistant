@@ -12,9 +12,9 @@ The following secrets must be configured in the GitHub repository settings (Sett
 2. **DOCKERHUB_TOKEN**: Your Docker Hub access token (not your password)
    - Create a token at: https://hub.docker.com/settings/security
 3. **DOCKERHUB_REPOSITORY_BACKEND**: Full Docker Hub repository name for the backend image
-   - Format: `username/repository-name` (e.g., `myuser/ai-assistant-backend`)
+   - Format: `username/repository-name` (e.g., `myuser/my-backend`)
 4. **DOCKERHUB_REPOSITORY_FRONTEND**: Full Docker Hub repository name for the frontend image
-   - Format: `username/repository-name` (e.g., `myuser/ai-assistant-frontend`)
+   - Format: `username/repository-name` (e.g., `myuser/my-frontend`)
 
 ### Image Tags
 
