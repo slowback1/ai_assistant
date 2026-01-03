@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-push-backend:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,6 +44,8 @@ jobs:
 
   build-and-push-frontend:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
