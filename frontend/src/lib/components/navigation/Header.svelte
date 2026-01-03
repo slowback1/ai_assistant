@@ -8,6 +8,7 @@
 	<SkipToContentLink />
 
 	<HeaderLink href="/" label="Home" />
+	<HeaderLink href="/activities" label="Activities" />
 	<ThemeToggle />
 </nav>
 
