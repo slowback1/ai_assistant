@@ -1,4 +1,6 @@
+using Common.Interfaces;
 using Common.Models;
+using Logic.AI;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
 using Quartz;
@@ -25,6 +27,17 @@ CrudFactoryConfigurator.ConfigureCrudFactory(builder.Services, builder.Configura
 
 builder.Services.Configure<AIConfig>(builder.Configuration.GetSection("AI"));
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<AIConfig>>().Value);
+
+// Configure Memory System
+builder.Services.Configure<MemoryConfig>(builder.Configuration.GetSection("Memory"));
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<MemoryConfig>>().Value);
+builder.Services.AddSingleton<IMemoryExtractionService>(sp =>
+{
+	var aiConfig = sp.GetRequiredService<AIConfig>();
+	var memoryConfig = sp.GetRequiredService<MemoryConfig>();
+	var aiRequester = new AIChat.AIChatRequester();
+	return new MemoryExtractionService(aiConfig, aiRequester, memoryConfig);
+});
 
 // Configure Quartz for scheduled jobs only if not in test environment
 var isTestEnvironment = builder.Environment.EnvironmentName == "Test";
