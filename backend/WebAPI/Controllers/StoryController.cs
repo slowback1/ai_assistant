@@ -54,7 +54,10 @@ public class StoryController : ApplicationController
 		var orderedEvents = previousEvents.OrderBy(e => e.CreatedAt).ToList();
 
 		var personality = new DarthVader();
-		var personalityId = personality.Name; // Use personality name as ID
+		// TODO: Implement proper personality ID system. Currently using name as ID.
+		// Consider: 1) Adding Id property to IPersonality, or
+		//          2) Using stable hash based on personality type name
+		var personalityId = personality.Name;
 		var requester = new AIChatRequester();
 		
 		StoryGenerationUseCase useCase;
@@ -87,12 +90,18 @@ public class StoryController : ApplicationController
 	}
 
 	[HttpGet("Memories")]
-	public async Task<ActionResult> GetMemories([FromQuery] string? personalityId = null)
+	public async Task<ActionResult> GetMemories(
+		[FromQuery] string? personalityId = null,
+		[FromQuery] int page = 1,
+		[FromQuery] int pageSize = 50)
 	{
 		if (!_memoryConfig.EnableMemoryExtraction)
 		{
 			return BadRequest(new { error = "Memory system is not enabled" });
 		}
+
+		if (page < 1) page = 1;
+		if (pageSize < 1 || pageSize > 100) pageSize = 50;
 
 		var memoryCrud = Factory.GetCrud<MemoryRecord>();
 		
@@ -106,7 +115,22 @@ public class StoryController : ApplicationController
 			memories = await memoryCrud.QueryAsync(m => m.PersonalityId == personalityId);
 		}
 
-		var orderedMemories = memories.OrderByDescending(m => m.CreatedAt).ToList();
-		return Ok(orderedMemories);
+		var orderedMemories = memories
+			.OrderByDescending(m => m.CreatedAt)
+			.Skip((page - 1) * pageSize)
+			.Take(pageSize)
+			.ToList();
+
+		var totalCount = memories.Count();
+		var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+		return Ok(new
+		{
+			memories = orderedMemories,
+			page,
+			pageSize,
+			totalCount,
+			totalPages
+		});
 	}
 }

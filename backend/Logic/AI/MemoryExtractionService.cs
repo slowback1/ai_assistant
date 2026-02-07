@@ -93,6 +93,12 @@ Respond with ONLY a number between 0.0 and 1.0, nothing else.";
 		var filteredMemories = new List<MemoryRecord>();
 		var existingMemoriesList = existingMemories.ToList();
 
+		// Note: This has O(n*m) complexity with sequential AI API calls.
+		// For production use with large memory sets, consider:
+		// 1. Batching similarity checks
+		// 2. Using embedding vectors for faster comparison
+		// 3. Implementing a vector database for semantic search
+		// 4. Adding a cache for frequently compared summaries
 		foreach (var candidate in candidates)
 		{
 			// Check confidence threshold
@@ -200,9 +206,10 @@ Respond with ONLY a number between 0.0 and 1.0, nothing else.";
 		var jsonStart = response.IndexOf('{');
 		var jsonEnd = response.LastIndexOf('}');
 
-		if (jsonStart >= 0 && jsonEnd > jsonStart)
+		if (jsonStart >= 0 && jsonEnd > jsonStart && jsonEnd < response.Length)
 		{
-			var jsonText = response.Substring(jsonStart, jsonEnd - jsonStart + 1);
+			var jsonLength = jsonEnd - jsonStart + 1;
+			var jsonText = response.Substring(jsonStart, jsonLength);
 			
 			var options = new JsonSerializerOptions
 			{

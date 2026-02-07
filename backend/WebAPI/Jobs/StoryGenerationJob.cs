@@ -43,7 +43,10 @@ public class StoryGenerationJob : IJob
 
 			// Generate new story
 			var personality = new DarthVader();
-			var personalityId = personality.Name; // Use personality name as ID
+			// TODO: Implement proper personality ID system. Currently using name as ID.
+			// Consider: 1) Adding Id property to IPersonality, or
+			//          2) Using stable hash based on personality type name
+			var personalityId = personality.Name;
 			var requester = new AIChatRequester();
 			
 			StoryGenerationUseCase useCase;

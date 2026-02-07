@@ -36,6 +36,7 @@ public class StoryGenerationUseCase
 		_memoryConfig = memoryConfig;
 	}
 
+	[Obsolete("Use ExecuteAsync for better async/await support. This synchronous wrapper may cause issues in some contexts.")]
 	public UseCaseResult<string> Execute(IPersonality personality, IEnumerable<StoryEvent> previousEvents)
 	{
 		return ExecuteAsync(personality, previousEvents, null, null, null).GetAwaiter().GetResult();
@@ -52,18 +53,18 @@ public class StoryGenerationUseCase
 		
 		// Load long-term memories if enabled
 		var longTermMemories = new List<MemoryRecord>();
-		if (_memoryConfig?.EnableMemoryExtraction == true && _crudFactory != null && !string.IsNullOrEmpty(personalityId))
+		if (IsMemorySystemEnabled() && !string.IsNullOrEmpty(personalityId))
 		{
 			try
 			{
-				var memoryCrud = _crudFactory.GetCrud<MemoryRecord>();
+				var memoryCrud = _crudFactory!.GetCrud<MemoryRecord>();
 				var allMemories = await memoryCrud.QueryAsync(m =>
 					m.PersonalityId == personalityId &&
 					m.Type == MemoryType.LongTerm);
 				
 				longTermMemories = allMemories
 					.OrderByDescending(m => m.CreatedAt)
-					.Take(_memoryConfig.MaxMemoriesPerPrompt)
+					.Take(_memoryConfig!.MaxMemoriesPerPrompt)
 					.ToList();
 			}
 			catch (Exception)
@@ -88,22 +89,42 @@ public class StoryGenerationUseCase
 		}
 
 		// Extract memories if enabled
-		if (_memoryConfig?.EnableMemoryExtraction == true &&
-		    _memoryService != null &&
-		    _crudFactory != null &&
+		if (IsMemorySystemEnabled() &&
 		    !string.IsNullOrEmpty(personalityId) &&
 		    !string.IsNullOrEmpty(storyEventId))
 		{
-			_ = Task.Run(async () => await ExtractAndStoreMemoriesAsync(
-				personality,
-				eventsList,
-				result.Response,
-				personalityId,
-				sessionId,
-				storyEventId));
+			// Run memory extraction in background with proper error handling
+			var extractionTask = Task.Run(async () =>
+			{
+				try
+				{
+					await ExtractAndStoreMemoriesAsync(
+						personality,
+						eventsList,
+						result.Response,
+						personalityId,
+						sessionId,
+						storyEventId);
+				}
+				catch (Exception)
+				{
+					// Log error but don't block story generation
+					// In production, this should use structured logging
+				}
+			});
+			
+			// Don't await - let it run in background
+			_ = extractionTask;
 		}
 
 		return UseCaseResult<string>.Success(result.Response);
+	}
+
+	private bool IsMemorySystemEnabled()
+	{
+		return _memoryConfig?.EnableMemoryExtraction == true &&
+		       _memoryService != null &&
+		       _crudFactory != null;
 	}
 
 	private async Task ExtractAndStoreMemoriesAsync(
