@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PersonalityApi, { type PersonalityInput } from '$lib/api/PersonalityApi';
 	import { goto } from '$app/navigation';
+	import { cleanupOptionalFields } from '$lib/utils/formUtils';
 
 	let formData: PersonalityInput = {
 		name: '',
@@ -55,14 +56,16 @@
 			formData.relationships = parseListField(relationshipsText);
 
 			// Clean up empty strings
-			if (!formData.age?.trim()) formData.age = undefined;
-			if (!formData.physicalFeatures?.trim()) formData.physicalFeatures = undefined;
-			if (!formData.typicalClothing?.trim()) formData.typicalClothing = undefined;
-			if (!formData.dreamsForFuture?.trim()) formData.dreamsForFuture = undefined;
-			if (!formData.whatTheyWillTalkAbout?.trim()) formData.whatTheyWillTalkAbout = undefined;
-			if (!formData.occupation?.trim()) formData.occupation = undefined;
-			if (!formData.background?.trim()) formData.background = undefined;
-			if (!formData.motivations?.trim()) formData.motivations = undefined;
+			cleanupOptionalFields(formData, [
+				'age',
+				'physicalFeatures',
+				'typicalClothing',
+				'dreamsForFuture',
+				'whatTheyWillTalkAbout',
+				'occupation',
+				'background',
+				'motivations'
+			]);
 
 			const created = await api.create(formData);
 			goto(`/personalities/${created.id}`);

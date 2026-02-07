@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { cleanupOptionalFields } from '$lib/utils/formUtils';
 
 	let personality: Personality | null = null;
 	let formData: PersonalityInput = {
@@ -101,14 +102,16 @@
 			formData.relationships = parseListField(relationshipsText);
 
 			// Clean up empty strings
-			if (!formData.age?.trim()) formData.age = undefined;
-			if (!formData.physicalFeatures?.trim()) formData.physicalFeatures = undefined;
-			if (!formData.typicalClothing?.trim()) formData.typicalClothing = undefined;
-			if (!formData.dreamsForFuture?.trim()) formData.dreamsForFuture = undefined;
-			if (!formData.whatTheyWillTalkAbout?.trim()) formData.whatTheyWillTalkAbout = undefined;
-			if (!formData.occupation?.trim()) formData.occupation = undefined;
-			if (!formData.background?.trim()) formData.background = undefined;
-			if (!formData.motivations?.trim()) formData.motivations = undefined;
+			cleanupOptionalFields(formData, [
+				'age',
+				'physicalFeatures',
+				'typicalClothing',
+				'dreamsForFuture',
+				'whatTheyWillTalkAbout',
+				'occupation',
+				'background',
+				'motivations'
+			]);
 
 			await api.update(id, formData);
 			goto(`/personalities/${id}`);
