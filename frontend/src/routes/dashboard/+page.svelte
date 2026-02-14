@@ -1,11 +1,14 @@
 <script lang="ts">
 	import StoryApi, { type StoryEvent } from '$lib/api/StoryApi';
+	import DonetickTaskList from '$lib/components/DonetickTaskList.svelte';
+	import FeatureFlagService from '$lib/services/FeatureFlag/FeatureFlagService';
 	import { onMount, onDestroy } from 'svelte';
 
 	let latestStory: StoryEvent | null = null;
 	let loading = true;
 	let error = '';
 	let pollInterval: number;
+	let donetickEnabled = false;
 
 	const api = new StoryApi();
 
@@ -27,6 +30,13 @@
 		fetchLatestStory();
 		// Poll for new stories every 30 seconds
 		pollInterval = setInterval(fetchLatestStory, 30000);
+
+		// Subscribe to Donetick feature flag
+		const unsubscribe = FeatureFlagService.subscribeToFeature('DONETICK_ENABLED', (isEnabled) => {
+			donetickEnabled = isEnabled;
+		});
+
+		return unsubscribe;
 	});
 
 	onDestroy(() => {
@@ -52,6 +62,10 @@
 	</div>
 
 	<div class="dashboard-content">
+		{#if donetickEnabled}
+			<DonetickTaskList />
+		{/if}
+
 		<div class="story-section">
 			<h2>Latest Story Event</h2>
 			
@@ -76,12 +90,6 @@
 					<p class="hint">The first story will appear once the hourly job runs.</p>
 				</div>
 			{/if}
-		</div>
-
-		<!-- Placeholder for future dashboard sections -->
-		<div class="placeholder-section">
-			<h2>More Features Coming Soon</h2>
-			<p>This space is reserved for future dashboard enhancements.</p>
 		</div>
 	</div>
 </div>
@@ -184,24 +192,5 @@
 		font-size: 0.9rem;
 		color: #999;
 		margin-top: 0.5rem;
-	}
-
-	.placeholder-section {
-		background: white;
-		border-radius: 8px;
-		padding: 2rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		text-align: center;
-		color: #999;
-		border: 2px dashed #ddd;
-		min-height: 200px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.placeholder-section h2 {
-		color: #999;
-		margin-bottom: 1rem;
 	}
 </style>

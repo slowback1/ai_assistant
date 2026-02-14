@@ -4,6 +4,10 @@
     {
       "name": "DEMO_FEATURE_FLAG",
       "isEnabled": false 
+    },
+    {
+      "name": "DONETICK_ENABLED",
+      "isEnabled": false
     }
   ]
 }
