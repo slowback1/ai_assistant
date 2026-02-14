@@ -1,5 +1,6 @@
 using Common.Interfaces;
 using Common.Models;
+using Donetick;
 using Logic.AI;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
@@ -37,6 +38,20 @@ builder.Services.AddSingleton<IMemoryExtractionService>(sp =>
 	var memoryConfig = sp.GetRequiredService<MemoryConfig>();
 	var aiRequester = new AIChat.AIChatRequester();
 	return new MemoryExtractionService(aiConfig, aiRequester, memoryConfig);
+});
+
+// Configure Donetick Integration (optional)
+builder.Services.Configure<DonetickConfig>(builder.Configuration.GetSection("Donetick"));
+builder.Services.AddSingleton(sp =>
+{
+	var config = sp.GetRequiredService<IOptions<DonetickConfig>>().Value;
+	// Only register if both ApiKey and InstanceUrl are configured
+	if (!string.IsNullOrEmpty(config.ApiKey) && !string.IsNullOrEmpty(config.InstanceUrl))
+	{
+		var client = new DonetickClient(config);
+		return new DonetickService(client);
+	}
+	return null;
 });
 
 // Configure Quartz for scheduled jobs only if not in test environment
