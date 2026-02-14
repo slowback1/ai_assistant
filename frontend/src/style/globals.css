@@ -17,7 +17,7 @@ main {
 
 	--gutters-y: 12px;
 	--gutters-x: 24px;
-	--header-height: 64px;
+	--header-height: 0px;
 }
 
 .light-theme {

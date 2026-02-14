@@ -35,7 +35,6 @@
 	class:dark-theme={currentTheme === ColorTheme.Dark}
 >
 	<ToastWrapper />
-	<Header />
 	<main id="content" class="main-content">
 		<slot />
 	</main>

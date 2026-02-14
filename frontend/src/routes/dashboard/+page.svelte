@@ -42,15 +42,10 @@
 </script>
 
 <svelte:head>
-	<title>Dashboard - Character Story</title>
+	<title>Dashboard</title>
 </svelte:head>
 
 <div class="dashboard-container">
-	<div class="dashboard-header">
-		<h1>Darth Vader's Adventure Dashboard</h1>
-		<p class="subtitle">Following the dark lord's latest exploits across the galaxy</p>
-	</div>
-
 	<div class="dashboard-content">
 		<div class="story-section">
 			<h2>Latest Story Event</h2>
@@ -88,7 +83,6 @@
 
 <style>
 	.dashboard-container {
-		max-width: 1200px;
 		margin: 0 auto;
 		padding: 2rem;
 	}
