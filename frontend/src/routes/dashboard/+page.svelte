@@ -9,6 +9,7 @@
 	let error = '';
 	let pollInterval: number;
 	let donetickEnabled = false;
+	let featureFlagUnsubscribe: (() => void) | null = null;
 
 	const api = new StoryApi();
 
@@ -32,16 +33,17 @@
 		pollInterval = setInterval(fetchLatestStory, 30000);
 
 		// Subscribe to Donetick feature flag
-		const unsubscribe = FeatureFlagService.subscribeToFeature('DONETICK_ENABLED', (isEnabled) => {
+		featureFlagUnsubscribe = FeatureFlagService.subscribeToFeature('DONETICK_ENABLED', (isEnabled) => {
 			donetickEnabled = isEnabled;
 		});
-
-		return unsubscribe;
 	});
 
 	onDestroy(() => {
 		if (pollInterval) {
 			clearInterval(pollInterval);
+		}
+		if (featureFlagUnsubscribe) {
+			featureFlagUnsubscribe();
 		}
 	});
 
