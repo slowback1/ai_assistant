@@ -61,7 +61,9 @@
 <div class="dashboard-container">
 	<div class="dashboard-content">
 		{#if donetickEnabled}
-			<DonetickTaskList />
+            <div class="donetick-section">
+			    <DonetickTaskList />
+            </div>
 		{/if}
 
 		<div class="story-section">
@@ -93,30 +95,16 @@
 </div>
 
 <style>
-	.dashboard-container {
-		margin: 0 auto;
-		padding: 2rem;
-	}
-
-	.dashboard-header {
-		text-align: center;
-		margin-bottom: 3rem;
-	}
-
 	.dashboard-header h1 {
 		font-size: 2.5rem;
 		color: #e63946;
 		margin-bottom: 0.5rem;
 	}
 
-	.subtitle {
-		font-size: 1.1rem;
-		color: #666;
-	}
-
 	.dashboard-content {
 		display: grid;
 		gap: 2rem;
+        grid-template-columns: 1fr 1fr;
 	}
 
 	.story-section {
@@ -124,6 +112,7 @@
 		border-radius: 8px;
 		padding: 2rem;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        height: fit-content;
 	}
 
 	.story-section h2 {
