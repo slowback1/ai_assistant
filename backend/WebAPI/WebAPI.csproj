@@ -26,6 +26,7 @@
         <ProjectReference Include="..\FileData\FileData.csproj" />
         <ProjectReference Include="..\InMemory\InMemory.csproj" />
         <ProjectReference Include="..\Logic\Logic.csproj" />
+        <ProjectReference Include="..\Donetick\Donetick.csproj" />
     </ItemGroup>
 
 </Project>
