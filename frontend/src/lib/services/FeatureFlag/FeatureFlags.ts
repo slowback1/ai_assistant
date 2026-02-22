@@ -1,5 +1,3 @@
-﻿import type { FeatureFlag } from '$lib/services/FeatureFlag/IFeatureFlagProvider';
-
-export const FeatureFlags = {
-	DEMO_FEATURE_FLAG: 'DEMO_FEATURE_FLAG'
+﻿export const FeatureFlags = {
+	DONETICK_ENABLED: 'DONETICK_ENABLED',
 };

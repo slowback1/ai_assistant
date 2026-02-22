@@ -3,6 +3,7 @@
 	import DonetickTaskList from '$lib/components/DonetickTaskList.svelte';
 	import FeatureFlagService from '$lib/services/FeatureFlag/FeatureFlagService';
 	import { onMount, onDestroy } from 'svelte';
+    import {FeatureFlags} from "$lib/services/FeatureFlag/FeatureFlags";
 
 	let latestStory: StoryEvent | null = null;
 	let loading = true;
@@ -33,7 +34,7 @@
 		pollInterval = setInterval(fetchLatestStory, 30000);
 
 		// Subscribe to Donetick feature flag
-		featureFlagUnsubscribe = FeatureFlagService.subscribeToFeature('DONETICK_ENABLED', (isEnabled) => {
+		featureFlagUnsubscribe = FeatureFlagService.subscribeToFeature(FeatureFlags.DONETICK_ENABLED, (isEnabled) => {
 			donetickEnabled = isEnabled;
 		});
 	});
