@@ -1,6 +1,7 @@
 <script lang="ts">
     import StoryApi, { type StoryEvent } from '$lib/api/StoryApi';
     import DonetickTaskList from '$lib/components/DonetickTaskList.svelte';
+    import WeatherWidget from '$lib/components/WeatherWidget.svelte';
     import FeatureFlagService from '$lib/services/FeatureFlag/FeatureFlagService';
     import { onMount, onDestroy } from 'svelte';
     import {FeatureFlags} from "$lib/services/FeatureFlag/FeatureFlags";
@@ -65,6 +66,10 @@
                 <DonetickTaskList />
             </div>
         {/if}
+
+        <div class="weather-widget-section">
+            <WeatherWidget />
+        </div>
 
         <div class="story-section">
             <h2>Latest Story Event</h2>

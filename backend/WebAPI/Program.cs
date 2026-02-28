@@ -5,6 +5,7 @@ using Logic.AI;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
 using Quartz;
+using Weather;
 using WebAPI.Configuration;
 using WebAPI.Jobs;
 
@@ -50,6 +51,19 @@ builder.Services.AddSingleton(sp =>
 	{
 		var client = new DonetickClient(config);
 		return new DonetickService(client);
+	}
+	return null;
+});
+
+// Configure Weather Integration (optional)
+builder.Services.Configure<WeatherConfig>(builder.Configuration.GetSection("Weather"));
+builder.Services.AddSingleton(sp =>
+{
+	var config = sp.GetRequiredService<IOptions<WeatherConfig>>().Value;
+	// Only register if both ApiKey and ZipCode are configured
+	if (!string.IsNullOrEmpty(config.ApiKey) && !string.IsNullOrEmpty(config.ZipCode))
+	{
+		return new WeatherClient(config);
 	}
 	return null;
 });
