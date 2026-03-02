@@ -47,28 +47,28 @@
 		<div class="weather-card">
 			<div class="weather-location">{weather.name}</div>
 			<div class="weather-main">
-				{#if weather.condition_icon}
+				{#if weather.conditionIcon}
 					<img
-						src="https://{weather.condition_icon}"
+						src="https://{weather.conditionIcon}"
 						alt={weather.condition}
 						class="weather-icon"
 					/>
 				{/if}
-				<div class="weather-temp">{weather.temp_f}°F</div>
+				<div class="weather-temp">{weather.tempF}°F</div>
 			</div>
 			<div class="weather-condition">{weather.condition}</div>
 			<div class="weather-details">
 				<div class="weather-detail">
 					<span class="detail-label">Wind</span>
-					<span class="detail-value">{weather.wind_mph} mph</span>
+					<span class="detail-value">{weather.windMph} mph</span>
 				</div>
 				<div class="weather-detail">
 					<span class="detail-label">Precip</span>
-					<span class="detail-value">{weather.precip_in} in</span>
+					<span class="detail-value">{weather.precipIn} in</span>
 				</div>
 				<div class="weather-detail">
 					<span class="detail-label">Heat Index</span>
-					<span class="detail-value">{weather.heatindex_f}°F</span>
+					<span class="detail-value">{weather.heatindexF}°F</span>
 				</div>
 			</div>
 		</div>
@@ -81,17 +81,14 @@
 
 <style>
 	.weather-section {
-		background: white;
 		border-radius: 8px;
 		padding: 2rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 		height: fit-content;
 	}
 
 	.weather-section h2 {
 		margin-top: 0;
-		color: #333;
-		border-bottom: 2px solid #1e88e5;
+		border-bottom: 2px solid var(--color-base-blue);
 		padding-bottom: 0.5rem;
 	}
 
@@ -102,7 +99,6 @@
 	.weather-location {
 		font-size: 1.2rem;
 		font-weight: 600;
-		color: #333;
 		margin-bottom: 0.5rem;
 	}
 
@@ -121,12 +117,11 @@
 	.weather-temp {
 		font-size: 2.5rem;
 		font-weight: 700;
-		color: #1e88e5;
+        color: var(--color-base-blue);
 	}
 
 	.weather-condition {
 		font-size: 1.1rem;
-		color: #555;
 		margin-bottom: 1rem;
 	}
 
@@ -135,7 +130,7 @@
 		gap: 1.5rem;
 		flex-wrap: wrap;
 		padding-top: 0.75rem;
-		border-top: 1px solid #ddd;
+		border-top: 1px solid var(--color-base-blue);
 	}
 
 	.weather-detail {
@@ -145,14 +140,13 @@
 
 	.detail-label {
 		font-size: 0.8rem;
-		color: #888;
 		text-transform: uppercase;
+        color: color-mix(in lab, var(--color-base-blue) 30%, var(--color-font));
 	}
 
 	.detail-value {
 		font-size: 1rem;
 		font-weight: 500;
-		color: #333;
 	}
 
 	.loading,
@@ -163,15 +157,7 @@
 		font-size: 1.1rem;
 	}
 
-	.loading {
-		color: #666;
-	}
-
 	.error {
-		color: #e63946;
-	}
-
-	.no-weather {
-		color: #666;
+		color: var(--color-base-red);
 	}
 </style>

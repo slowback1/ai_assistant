@@ -61,6 +61,8 @@ main {
 
 	--color-background: #111;
 	--color-font: #efefef;
+
+    --color-card: #1e1f25;
 	
 	--color-info-light-background: rgba(16, 112, 150, 0.68);
 	--color-info-light-font: #dedee0;

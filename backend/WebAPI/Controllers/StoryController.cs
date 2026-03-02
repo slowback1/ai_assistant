@@ -28,9 +28,16 @@ public class StoryController : ApplicationController
 		var allEvents = await storyCrud.QueryAsync(_ => true);
 		var latestEvent = allEvents.OrderByDescending(e => e.CreatedAt).FirstOrDefault();
 
+		var madeUpEvent = new StoryEvent
+		{
+			Id = "latest",
+			CreatedAt = DateTime.Now,
+			Story = "This is some sample text to test things out.  Something about a quick brown fox and lazy dogs."
+		};
+		
 		if (latestEvent == null)
 		{
-			return NotFound(new { message = "No stories found" });
+			latestEvent = madeUpEvent;
 		}
 
 		return Ok(latestEvent);

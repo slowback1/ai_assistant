@@ -2,12 +2,12 @@ import BaseApi from '$lib/api/baseApi';
 
 export interface WeatherData {
 	name: string;
-	temp_f: number;
-	wind_mph: number;
-	precip_in: number;
-	heatindex_f: number;
+	tempF: number;
+	windMph: number;
+	precipIn: number;
+	heatindexF: number;
 	condition: string;
-	condition_icon: string;
+	conditionIcon: string;
 }
 
 export default class WeatherApi extends BaseApi {
