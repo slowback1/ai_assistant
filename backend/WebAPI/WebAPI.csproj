@@ -27,6 +27,7 @@
         <ProjectReference Include="..\InMemory\InMemory.csproj" />
         <ProjectReference Include="..\Logic\Logic.csproj" />
         <ProjectReference Include="..\Donetick\Donetick.csproj" />
+        <ProjectReference Include="..\Weather\Weather.csproj" />
     </ItemGroup>
 
 </Project>

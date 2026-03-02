@@ -107,18 +107,16 @@
 
 <style>
 	.donetick-section {
-		background: white;
 		border-radius: 8px;
 		padding: 2rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         max-height: 240px;
         overflow-y: auto;
 	}
 
 	.donetick-section h2 {
 		margin-top: 0;
-		color: #333;
-		border-bottom: 2px solid #4caf50;
+		color: var(--color-font);
+		border-bottom: 2px solid var(--color-base-green);
 		padding-bottom: 0.5rem;
 	}
 
@@ -131,15 +129,15 @@
 	}
 
 	.loading {
-		color: #666;
+		color: var(--color-font);
 	}
 
 	.error {
-		color: #e63946;
+		color: var(--color-base-red);
 	}
 
 	.no-chores {
-		color: #666;
+		color: var(--color-font);
 	}
 
 	.chores-list {
@@ -154,8 +152,8 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 1rem;
-		background: #f8f9fa;
-		border-left: 4px solid #4caf50;
+		background: color-mix(in lab, var(--color-background) 40%, var(--color-base-green));
+		border-left: 4px solid var(--color-base-green);
 		border-radius: 4px;
 		transition: transform 0.2s;
 	}
@@ -170,13 +168,12 @@
 
 	.chore-name {
 		font-size: 1.1rem;
-		color: #333;
 		font-weight: 500;
 	}
 
 	.complete-btn {
-		background: #4caf50;
-		color: white;
+		background: var(--color-base-green);
+		color: var(--color-font);
 		border: none;
 		padding: 0.5rem 1.5rem;
 		border-radius: 4px;

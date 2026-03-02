@@ -12,12 +12,18 @@
 	import LocalStorageProvider from '$lib/bus/providers/localStorageProvider';
 
 	let currentTheme: ColorTheme = ColorTheme.Light;
+    let isLoaded = false;
 
 	onMount(() => {
 		MessageBus.initialize(new LocalStorageProvider());
 		UrlPathProvider.initialize(new RealUrlProvider());
 		ConfigService.initialize();
 		FeatureFlagService.initialize(new ConfigFeatureFlagProvider());
+
+        //todo - this is a band-aid for an issue where the app loads before config is fully loaded, replace with a more robust solution
+        setTimeout(() => {
+            isLoaded = true;
+        }, 250);
 
 		MessageBus.subscribe<ColorTheme>(
 			Messages.CurrentTheme,
@@ -30,15 +36,17 @@
 	<meta name="description" content="The Svelte Starter Kit!!!" />
 </svelte:head>
 
-<div
-	class:light-theme={currentTheme === ColorTheme.Light}
-	class:dark-theme={currentTheme === ColorTheme.Dark}
->
-	<ToastWrapper />
-	<main id="content" class="main-content">
-		<slot />
-	</main>
-</div>
+{#if isLoaded}
+    <div
+            class="dark-theme"
+    >
+        <ToastWrapper />
+        <main id="content" class="main-content">
+            <slot />
+        </main>
+    </div>
+{/if}
+
 
 <style global>
 	@import '../style/reset.css';
