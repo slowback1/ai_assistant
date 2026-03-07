@@ -72,15 +72,15 @@
 	}
 
 	.personality-card {
-		border: 1px solid #ddd;
+		border: 1px solid var(--color-border);
 		border-radius: 8px;
 		padding: 1.5rem;
-		background-color: #f9f9f9;
+		background-color: var(--color-card);
 	}
 
 	.personality-card.active {
-		border-color: #28a745;
-		background-color: #f0fff4;
+		border-color: var(--color-button-success);
+		background-color: var(--color-card);
 	}
 
 	.personality-card h3 {
@@ -94,14 +94,14 @@
 	.active-badge {
 		font-size: 0.75rem;
 		padding: 0.25rem 0.5rem;
-		background-color: #28a745;
-		color: white;
+		background-color: var(--color-button-success);
+		color: var(--color-primary-font);
 		border-radius: 4px;
 	}
 
 	.personality-card p {
 		margin-bottom: 1rem;
-		color: #666;
+		color: var(--color-muted);
 	}
 
 	.card-actions {
@@ -111,8 +111,8 @@
 
 	.button {
 		padding: 0.5rem 1rem;
-		background-color: #007bff;
-		color: white;
+		background-color: var(--color-button-primary);
+		color: var(--color-primary-font);
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
@@ -121,24 +121,24 @@
 	}
 
 	.button:hover {
-		background-color: #0056b3;
+		background-color: var(--color-button-primary-hover);
 	}
 
 	.button:disabled {
-		background-color: #ccc;
+		background-color: var(--color-muted);
 		cursor: not-allowed;
 	}
 
 	.button.primary {
-		background-color: #28a745;
+		background-color: var(--color-button-success);
 	}
 
 	.button.primary:hover {
-		background-color: #218838;
+		background-color: var(--color-button-success-hover);
 	}
 
 	.button.active-btn {
-		background-color: #6c757d;
+		background-color: var(--color-muted);
 		cursor: default;
 	}
 

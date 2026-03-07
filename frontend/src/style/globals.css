@@ -81,4 +81,13 @@ main {
 	--color-base-green: #137121;
 	--color-base-red: #b12525;
 	
+	/* Component Tokens */
+	--color-border: #444;
+	--color-muted: #aaa;
+	--color-error: #d77474;
+	--color-button-primary: #15429f;
+	--color-button-primary-hover: #1e52c4;
+	--color-button-success: #137121;
+	--color-button-success-hover: #188a2a;
+	
 }
