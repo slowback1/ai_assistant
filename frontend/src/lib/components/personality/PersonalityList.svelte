@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Personality } from '$lib/api/PersonalityApi';
+	import PersonalityApi from '$lib/api/PersonalityApi';
+	import StoryApi from '$lib/api/StoryApi';
 
 	export let personalities: Personality[] = [];
 	export let page: number = 1;
@@ -8,6 +10,20 @@
 	export let totalCount: number = 0;
 	export let onNextPage: () => void = () => {};
 	export let onPrevPage: () => void = () => {};
+	export let onSetActive: (personality: Personality) => void = () => {};
+
+	const personalityApi = new PersonalityApi();
+	const storyApi = new StoryApi();
+
+	async function handleSetActive(personality: Personality) {
+		try {
+			await personalityApi.setActive(personality.id);
+			await storyApi.generate();
+			onSetActive(personality);
+		} catch (error) {
+			console.error('Failed to set active personality:', error);
+		}
+	}
 </script>
 
 <div class="personality-list" data-testid="personality-list">
@@ -15,12 +31,22 @@
 		<p>No personalities found. <a href="/personalities/create">Create one</a> to get started.</p>
 	{:else}
 		{#each personalities as personality}
-			<div class="personality-card" data-testid="personality-card">
-				<h3>{personality.name}</h3>
+			<div class="personality-card" data-testid="personality-card" class:active={personality.isActive}>
+				<h3>
+					{personality.name}
+					{#if personality.isActive}
+						<span class="active-badge">Active</span>
+					{/if}
+				</h3>
 				<p>{personality.description}</p>
 				<div class="card-actions">
 					<a href="/personalities/{personality.id}" class="button">View</a>
 					<a href="/personalities/{personality.id}/edit" class="button">Edit</a>
+					{#if personality.isActive}
+						<button class="button active-btn" disabled>Active</button>
+					{:else}
+						<button class="button primary" on:click={() => handleSetActive(personality)}>Set Active</button>
+					{/if}
 				</div>
 			</div>
 		{/each}
@@ -52,9 +78,25 @@
 		background-color: #f9f9f9;
 	}
 
+	.personality-card.active {
+		border-color: #28a745;
+		background-color: #f0fff4;
+	}
+
 	.personality-card h3 {
 		margin-top: 0;
 		margin-bottom: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.active-badge {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		background-color: #28a745;
+		color: white;
+		border-radius: 4px;
 	}
 
 	.personality-card p {
@@ -85,6 +127,19 @@
 	.button:disabled {
 		background-color: #ccc;
 		cursor: not-allowed;
+	}
+
+	.button.primary {
+		background-color: #28a745;
+	}
+
+	.button.primary:hover {
+		background-color: #218838;
+	}
+
+	.button.active-btn {
+		background-color: #6c757d;
+		cursor: default;
 	}
 
 	.pagination {

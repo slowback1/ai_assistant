@@ -49,6 +49,10 @@
 		}
 	}
 
+	function handleSetActive() {
+		loadPersonalities();
+	}
+
 	onMount(() => {
 		loadPersonalities();
 	});
@@ -88,6 +92,7 @@
 			{totalCount}
 			onNextPage={nextPage}
 			onPrevPage={prevPage}
+			onSetActive={handleSetActive}
 		/>
 	{/if}
 </div>

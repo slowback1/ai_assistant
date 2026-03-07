@@ -21,4 +21,5 @@ public class Personality : IPersonality, IIdentifyable
 	public string? Occupation { get; set; }
 	public string? Background { get; set; }
 	public string? Motivations { get; set; }
+	public bool IsActive { get; set; }
 }

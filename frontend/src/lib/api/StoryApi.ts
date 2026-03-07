@@ -20,6 +20,11 @@ export default class StoryApi extends BaseApi {
             return [];
         }
     }
+
+    async generate(sessionId?: string): Promise<StoryEvent> {
+        const url = sessionId ? `Story/Generate?sessionId=${encodeURIComponent(sessionId)}` : 'Story/Generate';
+        return await this.Post<StoryEvent>(url, {});
+    }
 }
 
 export interface StoryEvent {

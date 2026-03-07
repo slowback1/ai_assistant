@@ -37,6 +37,10 @@ export default class PersonalityApi extends BaseApi {
 
 		return await this.Get<PaginatedPersonalitiesResult>('Personality/paginate', queryParams);
 	}
+
+	async setActive(id: string): Promise<Personality> {
+		return await this.Post<Personality>(`Personality/${id}/setactive`, {});
+	}
 }
 
 export interface Personality {
@@ -56,6 +60,7 @@ export interface Personality {
 	occupation?: string;
 	background?: string;
 	motivations?: string;
+	isActive?: boolean;
 }
 
 export interface PersonalityInput {

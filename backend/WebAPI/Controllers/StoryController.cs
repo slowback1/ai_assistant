@@ -13,6 +13,7 @@ public class StoryController : ApplicationController
 	private readonly AIConfig _aiConfig;
 	private readonly MemoryConfig _memoryConfig;
 	private readonly IMemoryExtractionService? _memoryService;
+	private static string? _lastActivePersonalityId;
 
 	public StoryController(ICrudFactory crudFactory, AIConfig aiConfig, MemoryConfig memoryConfig, IMemoryExtractionService? memoryService = null) : base(crudFactory)
 	{
@@ -56,15 +57,32 @@ public class StoryController : ApplicationController
 	[HttpPost("Generate")]
 	public async Task<ActionResult> GenerateStory([FromQuery] string? sessionId = null)
 	{
+		var personalityCrud = Factory.GetCrud<Personality>();
+		var activePersonality = (await personalityCrud.QueryAsync(p => p.IsActive)).FirstOrDefault();
+
+		if (activePersonality == null)
+		{
+			return BadRequest(new { error = "No active personality found. Please set an active personality first." });
+		}
+
 		var storyCrud = Factory.GetCrud<StoryEvent>();
 		var previousEvents = await storyCrud.QueryAsync(_ => true);
+
+		if (_lastActivePersonalityId != null && _lastActivePersonalityId != activePersonality.Id)
+		{
+			foreach (var evt in previousEvents)
+			{
+				await storyCrud.DeleteAsync(evt.Id);
+			}
+			previousEvents = [];
+		}
+
+		_lastActivePersonalityId = activePersonality.Id;
+
 		var orderedEvents = previousEvents.OrderBy(e => e.CreatedAt).ToList();
 
-		var personality = new DarthVader();
-		// TODO: Implement proper personality ID system. Currently using name as ID.
-		// Consider: 1) Adding Id property to IPersonality, or
-		//          2) Using stable hash based on personality type name
-		var personalityId = personality.Name;
+		var personality = GetPersonalityByName(activePersonality.Name);
+		var personalityId = activePersonality.Id;
 		var requester = new AIChatRequester();
 		
 		StoryGenerationUseCase useCase;
@@ -94,6 +112,15 @@ public class StoryController : ApplicationController
 		}
 
 		return BadRequest(new { error = result.ErrorMessage });
+	}
+
+	private static IPersonality GetPersonalityByName(string name)
+	{
+		return name switch
+		{
+			"Darth Vader" => new DarthVader(),
+			_ => new DarthVader()
+		};
 	}
 
 	[HttpGet("Memories")]

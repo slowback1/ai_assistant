@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  SOLUTION_FILE: DotNetStarterKit.sln
+  SOLUTION_FILE: AIAssistant.sln
   API_PROJECT: WebAPI
   API_APPSETTINGS_DEV: WebAPI/appsettings.Development.json
   CONSOLE_APPSETTINGS_DEV: ConsoleUtilities/appsettings.Development.json

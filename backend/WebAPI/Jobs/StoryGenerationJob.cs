@@ -36,13 +36,20 @@ public class StoryGenerationJob : IJob
 			_logger.LogInformation("Starting story generation job at {Time}", DateTime.UtcNow);
 
 			var storyCrud = _crudFactory.GetCrud<StoryEvent>();
+			var personalityCrud = _crudFactory.GetCrud<Personality>();
 			
 			// Get previous events, ordered by creation time
 			var previousEvents = await storyCrud.QueryAsync(_ => true);
 			var orderedEvents = previousEvents.OrderBy(e => e.CreatedAt).ToList();
 
 			// Generate new story
-			var personality = new DarthVader();
+			IPersonality? personality = (await personalityCrud.GetByQueryAsync(p => p.IsActive));
+
+			if (personality is null)
+			{
+				personality = new DarthVader();
+			}
+			
 			// TODO: Implement proper personality ID system. Currently using name as ID.
 			// Consider: 1) Adding Id property to IPersonality, or
 			//          2) Using stable hash based on personality type name

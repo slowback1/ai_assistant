@@ -51,4 +51,24 @@ public class PersonalityController : ApplicationController
 		var result = await useCase.Execute(page, pageSize, nameFilter, sortBy, sortOrder);
 		return ToActionResult(result);
 	}
+
+	[HttpPost("{id}/setactive")]
+	public async Task<ActionResult> SetActive(string id)
+	{
+		var allPersonalities = await _personalityCrud.QueryAsync(_ => true);
+		
+		foreach (var personality in allPersonalities)
+		{
+			personality.IsActive = personality.Id == id;
+			await _personalityCrud.UpdateAsync(personality.Id, personality);
+		}
+		
+		var updatedPersonality = allPersonalities.FirstOrDefault(p => p.Id == id);
+		if (updatedPersonality == null)
+		{
+			return NotFound(new { error = "Personality not found" });
+		}
+		
+		return Ok(updatedPersonality);
+	}
 }
