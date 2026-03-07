@@ -192,8 +192,8 @@
 
 	.button {
 		padding: 0.5rem 1rem;
-		background-color: #007bff;
-		color: white;
+		background-color: var(--color-button-primary);
+		color: var(--color-primary-font);
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
@@ -202,21 +202,21 @@
 	}
 
 	.button:hover {
-		background-color: #0056b3;
+		background-color: var(--color-button-primary-hover);
 	}
 
 	.button.primary {
-		background-color: #28a745;
+		background-color: var(--color-button-success);
 	}
 
 	.button.primary:hover {
-		background-color: #218838;
+		background-color: var(--color-button-success-hover);
 	}
 
 	.personality-details section {
 		margin-bottom: 1.5rem;
 		padding: 1rem;
-		background-color: #f9f9f9;
+		background-color: var(--color-card);
 		border-radius: 8px;
 	}
 
@@ -224,7 +224,7 @@
 		margin-top: 0;
 		margin-bottom: 0.5rem;
 		font-size: 1.2rem;
-		color: #333;
+		color: var(--color-font);
 	}
 
 	.personality-details p {
@@ -242,6 +242,6 @@
 	}
 
 	.error {
-		color: red;
+		color: var(--color-error);
 	}
 </style>

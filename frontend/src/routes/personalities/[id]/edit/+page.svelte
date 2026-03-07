@@ -140,8 +140,8 @@
 
 	.button {
 		padding: 0.5rem 1rem;
-		background-color: #007bff;
-		color: white;
+		background-color: var(--color-button-primary);
+		color: var(--color-primary-font);
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
@@ -150,11 +150,11 @@
 	}
 
 	.button:hover {
-		background-color: #0056b3;
+		background-color: var(--color-button-primary-hover);
 	}
 
 	.error {
-		color: red;
+		color: var(--color-error);
 		margin-bottom: 1rem;
 	}
 </style>

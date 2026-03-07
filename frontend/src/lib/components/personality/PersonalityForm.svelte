@@ -193,9 +193,11 @@
 	textarea {
 		width: 100%;
 		padding: 0.5rem;
-		border: 1px solid #ccc;
+		border: 1px solid var(--color-border);
 		border-radius: 4px;
 		font-family: inherit;
+		background-color: var(--color-card);
+		color: var(--color-font);
 	}
 
 	textarea {
@@ -210,8 +212,8 @@
 
 	.button {
 		padding: 0.5rem 1rem;
-		background-color: #007bff;
-		color: white;
+		background-color: var(--color-button-primary);
+		color: var(--color-primary-font);
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
@@ -220,24 +222,24 @@
 	}
 
 	.button:hover {
-		background-color: #0056b3;
+		background-color: var(--color-button-primary-hover);
 	}
 
 	.button:disabled {
-		background-color: #ccc;
+		background-color: var(--color-muted);
 		cursor: not-allowed;
 	}
 
 	.button.primary {
-		background-color: #28a745;
+		background-color: var(--color-button-success);
 	}
 
 	.button.primary:hover {
-		background-color: #218838;
+		background-color: var(--color-button-success-hover);
 	}
 
 	.error {
-		color: red;
+		color: var(--color-error);
 		margin-bottom: 1rem;
 	}
 </style>
