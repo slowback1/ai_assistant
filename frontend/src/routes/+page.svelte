@@ -2,6 +2,7 @@
     import StoryApi, { type StoryEvent } from '$lib/api/StoryApi';
     import DonetickTaskList from '$lib/components/DonetickTaskList.svelte';
     import WeatherWidget from '$lib/components/WeatherWidget.svelte';
+    import ActivityPicker from '$lib/components/ActivityPicker.svelte';
     import FeatureFlagService from '$lib/services/FeatureFlag/FeatureFlagService';
     import { onMount, onDestroy } from 'svelte';
     import {FeatureFlags} from "$lib/services/FeatureFlag/FeatureFlags";
@@ -70,6 +71,10 @@
 
         <div class="weather-widget-section card">
             <WeatherWidget />
+        </div>
+
+        <div class="activity-picker-section card">
+            <ActivityPicker />
         </div>
 
         <div class="story-section card">

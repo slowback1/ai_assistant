@@ -74,16 +74,22 @@ if (!isTestEnvironment)
 {
 	builder.Services.AddQuartz(q =>
 	{
-		// Create a job key for our story generation job
-		var jobKey = new JobKey("StoryGenerationJob");
-		
-		q.AddJob<StoryGenerationJob>(opts => opts.WithIdentity(jobKey));
-		
-		// Create a trigger that runs every hour
+		// Story generation job — every hour on the hour
+		var storyJobKey = new JobKey("StoryGenerationJob");
+		q.AddJob<StoryGenerationJob>(opts => opts.WithIdentity(storyJobKey));
 		q.AddTrigger(opts => opts
-			.ForJob(jobKey)
+			.ForJob(storyJobKey)
 			.WithIdentity("StoryGenerationJob-trigger")
-			.WithCronSchedule("0 0 * * * ?") // Every hour on the hour
+			.WithCronSchedule("0 0 * * * ?")
+		);
+
+		// Activity picker job — every hour on the hour
+		var activityJobKey = new JobKey("ActivityPickerJob");
+		q.AddJob<ActivityPickerJob>(opts => opts.WithIdentity(activityJobKey));
+		q.AddTrigger(opts => opts
+			.ForJob(activityJobKey)
+			.WithIdentity("ActivityPickerJob-trigger")
+			.WithCronSchedule("0 0 * * * ?")
 		);
 	});
 
